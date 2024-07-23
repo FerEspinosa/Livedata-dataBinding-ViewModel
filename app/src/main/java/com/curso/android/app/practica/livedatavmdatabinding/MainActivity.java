@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binding.textView.setText(" " + viewModel.getCounter());
-        binding.textView.setText("0");
 
         // Observing the LiveData
         viewModel.getCounter().observe(this, new Observer<Integer>() {

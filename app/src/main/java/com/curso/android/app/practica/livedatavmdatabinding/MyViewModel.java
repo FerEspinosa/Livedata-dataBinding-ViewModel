@@ -13,6 +13,10 @@ public class MyViewModel extends ViewModel {
         counter.setValue(currentValue + 1);
     }
     public LiveData<Integer> getCounter() {
+
+        if (counter.getValue() == null) {
+            counter.setValue(0);
+        }
         return counter;
     }
 }
