@@ -29,9 +29,16 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    buildFeatures {
+        dataBinding = true
+    }
 }
 
 dependencies {
+
+    // fix duplicate class
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
 
     implementation(libs.appcompat)
     implementation(libs.material)
