@@ -1,6 +1,7 @@
 package com.curso.android.app.practica.livedatavmdatabinding;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,12 +10,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.DataBindingComponent;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.curso.android.app.practica.livedatavmdatabinding.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    int counter = 0;
+    MyViewModel viewModel;
     ActivityMainBinding binding;
 
     @Override
@@ -28,11 +31,35 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        //
+        viewModel =
 
-        binding.Button.setOnClickListener(v -> {
-            counter++;
-            binding.textView.setText(String.valueOf(counter));
+                // "this" (the activity) is the owner of the ViewModel. So it will be killed along the activity
+                new ViewModelProvider(this)
+
+                // if a ViewModel exists it retrieves it, otherwise it creates a new one
+                // Therefore it holds the data for the whole app, surviving configuration changes
+                .get(MyViewModel.class);
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewModel.incrementCounter();
+            }
         });
+
+        binding.textView.setText(" " + viewModel.getCounter());
+        binding.textView.setText("0");
+
+        // Observing the LiveData
+        viewModel.getCounter().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                // Update de UI when LiveData changes
+                binding.textView.setText("" + integer);
+            }
+        });
+
     }
 }

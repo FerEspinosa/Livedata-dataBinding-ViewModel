@@ -40,6 +40,13 @@ dependencies {
     // fix duplicate class
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
 
+
+    val lifecycle_version ="2.6.2"
+
+    // viewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
